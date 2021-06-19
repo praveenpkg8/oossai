@@ -1,20 +1,17 @@
 const { BrowserWindow, app, ipcMain, Notification } = require('electron');
-const python = require('child_process').spawn('python', ['./hello.py']);
+// const python = require('child_process').spawn('python', ['./hello.py']);
+// const {exec} = require('child_process');
+// exec("sh ./hello.py", () => {})
    
 const path = require('path');
 
 const isDev = !app.isPackaged;
-const NOTIFICATION_TITLE = 'Basic Notification'
-const NOTIFICATION_BODY = 'Notification from the Main process'
 
-function showNotification () {
-  new Notification({ title: NOTIFICATION_TITLE, body: NOTIFICATION_BODY }).show()
-}
 
 function createWindow() {
   const win = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 500,
+    height: 120,
     backgroundColor: "white",
     webPreferences: {
       nodeIntegration: false,
@@ -23,11 +20,13 @@ function createWindow() {
       // preload: path.join(__dirname, 'preload.js')
     }
   })
-  python.stdout.on('data',function(data){
-    console.log("data: ",data.toString('utf8'));
-});
+  var python = require('child_process').spawn('sh', [path.join(__dirname, 'python.sh')]);
+  //   python.stdout.on('data',function(data){
+  //       console.log("data: ",data.toString('utf8'));
+  //   });
 
-  win.loadFile('index.html');
+
+  win.loadFile(path.join(__dirname, 'index.html'));
 }
 
 if (isDev) {
@@ -40,4 +39,4 @@ ipcMain.on('notify', (_, message) => {
   new Notification({title: 'Notifiation', body: message}).show();
 })
 
-app.whenReady().then(createWindow).then(showNotification)
+app.whenReady().then(createWindow)
