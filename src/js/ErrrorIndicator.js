@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../css/ErrrorIndicator.css';
+import wifiOn from '../assets/img/wifiOn.png';
+import wifiOff from '../assets/img/wifiOff.png';
 
 
 const ErrrorIndicator = () => {
@@ -16,7 +18,7 @@ const ErrrorIndicator = () => {
 
     return (
         <>
-            <p className={internet ? 'green' : 'red'}> Internet</p>
+            <img className='wifi' src={internet ? wifiOn : wifiOff} alt="" />
         </>
     )
 }

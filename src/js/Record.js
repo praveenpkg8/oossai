@@ -1,5 +1,20 @@
 import React, { Component } from 'react';
 import { io } from "socket.io-client";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWifi } from '@fortawesome/free-solid-svg-icons'
+
+
+import '../css/Record.css';
+import micOn from '../assets/img/mic_on.png';
+import micOff from '../assets/img/mic_off.png';
+import echoMicOn from '../assets/img/mic_on1.png';
+import echoMicOff from '../assets/img/mic_off1.png';
+import wifiOn from '../assets/img/wifiOn.png';
+import wifiOff from '../assets/img/wifiOff.png';
+
+
+
+
 
 import '../css/ErrrorIndicator.css';
 
@@ -74,10 +89,14 @@ class Record extends Component {
 
     }
     stopRecordingAudio = async () => {
-        // this.rec.stop();
+        this.rec.stop();
     }
 
-    sendDownloadFile = (blob) => {
+    sendMessage = () => {
+        this.socket.emit('text', {text: "sample message"})
+        this.socket.on('re_text', (data) => {
+            console.log(data)
+        })
     }
 
     echo = async () => {
@@ -104,20 +123,16 @@ class Record extends Component {
         }, 5000)
 
     }
-    myNotification = new Notification('Foo', {
-        body: 'Lorem Ipsum Dolor Sit Amet'
-      })
 
 
     render() {
         const { recording, echoRecording, errorRecording } = this.state;
         return (
             <>
-                <button disabled={echoRecording} onClick={(e) => this.recordAudio(!recording)}>Record</button>
-                <button disabled={recording} onClick={this.echo}>Echo</button>
-                <p className={errorRecording ? 'red' : 'green'}>Socket</p>
-                <button onClick={this.myNotification}>Notify</button>
-
+                <span className={errorRecording ? 'dot-red' : 'dot-green'}></span>
+                <img className='mic' src={recording ? micOn : micOff} alt="" id="imgplus" onClick={() => {this.recordAudio(!recording)}} />
+                <img className='mic' src={echoRecording ? echoMicOn : echoMicOff} alt="" id="imgplus" onClick={this.echo} />
+                <button onClick={this.sendMessage}> Send Message</button>
             </>
         )
     }
