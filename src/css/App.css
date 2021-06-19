@@ -1,0 +1,11 @@
+.container {
+    /* width: 334px;
+    height: 57px; */
+    display: flex;
+    flex-wrap: wrap;
+    background: #424141;
+    border-radius: 25px;
+    justify-content:space-evenly;
+
+    /* margin-top: 40px; */
+}
