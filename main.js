@@ -12,11 +12,11 @@ function createWindow() {
   const win = new BrowserWindow({
     width: 500,
     height: 120,
-    backgroundColor: "white",
+    backgroundColor: "#424141",
     webPreferences: {
-      nodeIntegration: false,
+      nodeIntegration: true,
       worldSafeExecuteJavaScript: true,
-      contextIsolation: true,
+      contextIsolation: false,
       // preload: path.join(__dirname, 'preload.js')
     }
   })
@@ -28,6 +28,29 @@ function createWindow() {
 
   win.loadFile(path.join(__dirname, 'index.html'));
 }
+
+
+ipcMain.on('asynchronous-message', (event, arg) => {
+  console.log(arg)
+
+  const testWin = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    backgroundColor: "#424141",
+    webPreferences: {
+      nodeIntegration: true,
+      worldSafeExecuteJavaScript: true,
+      contextIsolation: false,
+      // preload: path.join(__dirname, 'preload.js')
+    }
+  })
+
+  testWin.loadFile(path.join(__dirname, 'index.html'));
+
+  // Event emitter for sending asynchronous messages
+  // event.sender.send('asynchronous-reply', 'async pong')
+})
+
 
 if (isDev) {
   require('electron-reload')(__dirname, {
