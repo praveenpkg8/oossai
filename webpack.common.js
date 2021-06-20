@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   mode: 'development',
@@ -35,6 +36,19 @@ module.exports = {
         ],
       },
       {
+        test: /\.svg$/,
+        oneOf: [
+            {
+                include: path.resolve(__dirname, '../node_modules/package-name/'),
+                use: 'svg-inline-loader'
+            },
+            {
+                exclude: path.resolve(__dirname, '../node_modules/package-name/'),
+                use: 'url-loader'
+            }
+        ]
+    },
+      {
         test: /\.(jpg|png)$/,
         use: {
           loader: 'url-loader',
@@ -49,4 +63,9 @@ module.exports = {
     filename: 'app.js',
     path: path.resolve(__dirname, 'build', 'js'),
   },
+  plugins: [
+    new webpack.ExternalsPlugin('commonjs', [
+      'electron'
+    ])
+  ]
 };
