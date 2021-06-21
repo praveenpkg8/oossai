@@ -2,6 +2,8 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Slider from '@material-ui/core/Slider';
 import Modal from '@material-ui/core/Modal';
+import { io } from "socket.io-client";
+
 
 import '../css/MouseControl.css';
 import cursorPointer from '../assets/img/cursor.png';
@@ -55,8 +57,6 @@ const SliderPop = () => {
 const MouseControl = () => {
 
 
-
-    const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
 
     const handleOpen = () => {
