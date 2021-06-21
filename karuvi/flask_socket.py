@@ -10,15 +10,16 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
 @socketio.on('message')
-def userAdded(sid, message):
+def userAdded(message):
     audio_bytes = message.get('audio')
+    print(audio_bytes)
     text = audio_byte_to_text(audio_bytes)
     pyautogui.typewrite(text)
     # sio.emit('rec_message', text)
 
 
 @socketio.on('mouse')
-def change_speed(sid, data):
+def change_speed(data):
     set_mouse_speed = data.get('speed')
     ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed,0,10, 0)
 
