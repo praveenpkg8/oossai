@@ -6,11 +6,8 @@ import Modal from '@material-ui/core/Modal';
 import '../css/MouseControl.css';
 import cursorPointer from '../assets/img/cursor.png';
 
+const ENDPOINT = "http://0.0.0.0:5000";
 
-
-const rand = () => {
-    return Math.round(Math.random() * 20) - 10;
-}
 
 const useStyles = makeStyles({
     root: {
@@ -24,16 +21,6 @@ const useStyles = makeStyles({
     },
 });
 
-function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
-
-    return {
-        top: `${top}%`,
-        left: `${left}%`,
-        transform: `translate(-${top}%, -${left}%)`,
-    };
-}
 
 
 
@@ -41,8 +28,19 @@ const SliderPop = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState(30);
 
+    const socket = io(ENDPOINT);
+    socket.on("connect_error", (err) => {
+        setState({ errorRecording: true });
+        console.log("error conneting to");
+    });
+    socket.on("connect", () => {
+        console.log(socket.id);
+        setState({ errorRecording: false });
+    });
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        this.socket.emit('mouse', { speed: newValue })
     };
 
 
