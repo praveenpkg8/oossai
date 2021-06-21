@@ -77,7 +77,6 @@ def bootstrapping_process():
 #                 audio_bytes += data
 #                 frames.append(data)
 #                 i += 1
-
 #             except speech_recognition.UnknownValueError:
 #                 continue
 
@@ -90,7 +89,7 @@ def bootstrapping_process():
 
 def audio_byte_to_text(audio_bytes):
             try:
-                file_name = './audio_chunks/sample.wav'
+                file_name = './karuvi/audio_chunks/sample.wav'
                 write_file(file_name, audio_bytes)
                 text = convert_byte_to_text(file_name)
                 print(text)
