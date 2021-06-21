@@ -1,4 +1,4 @@
-python-socketio
-eventlet
+flask
+flask_socketio
 pyautogui
 azure.cognitiveservices.speech

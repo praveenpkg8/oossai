@@ -1,60 +1,31 @@
-import tkinter as tk
-import pyaudio
-import wave
-
-CHUNK = 1024 
-FORMAT = pyaudio.paInt16
-CHANNELS = 2
-RATE = 44100
-SAMPLE_WIDTH = 2
-RECORD_SECONDS = 5
+import pyautogui
+import ctypes
+from flask import Flask, render_template
+from flask_socketio import SocketIO
+from server import audio_byte_to_text
 
 
-p = pyaudio.PyAudio()
+app = Flask(__name__)
+app.config['SECRET_KEY'] = 'secret!'
+socketio = SocketIO(app)
 
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self.pack()
-        self.create_widgets()
+@socketio.on('message')
+def userAdded(sid, message):
+    audio_bytes = message.get('audio')
+    text = audio_byte_to_text(audio_bytes)
+    pyautogui.typewrite(text)
+    # sio.emit('rec_message', text)
 
-    def create_widgets(self):
-        self.hi_there = tk.Button(self)
-        self.hi_there["text"] = "Hello World\n(click me)"
-        self.hi_there["command"] = self.say_hi
-        self.hi_there.pack(side="top")
 
-        self.quit = tk.Button(self, text="QUIT", fg="red",
-                              command=self.master.destroy)
-        self.quit.pack(side="bottom")
+@socketio.on('mouse')
+def change_speed(sid, data):
+    set_mouse_speed = data.get('speed')
+    ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed,0,10, 0)
 
-    def say_hi(self):
-        audio_bytes = b''
-        i = 1
-        stream = p.open(
-                format=FORMAT,
-                channels=CHANNELS,
-                rate=RATE,
-                input=True,
-                frames_per_buffer=CHUNK
-            )
-        frames = []
-        while True:
-            data = stream.read(CHUNK)
-            print(data)
-            i += 1
-            frames.append(data)
-            print(i)
-            if i % 500 == 0:
-                with wave.open('./sample.wav', 'wb') as wf:
-                    wf.setnchannels(CHANNELS)
-                    wf.setsampwidth(p.get_sample_size(FORMAT))
-                    wf.setframerate(RATE)
-                    wf.writeframes(b''.join(frames))
-                break
-        print("hi there, everyone!")
+@app.route("/test")
+def hello_word():
+    return "Hello World"
 
-root = tk.Tk()
-app = Application(master=root)
-app.mainloop()
+
+if __name__ == '__main__':
+    socketio.run(app)
