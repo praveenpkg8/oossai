@@ -6,6 +6,7 @@ import pyautogui
 
 
 import sys
+import ctypes
 
 print(sys.path)
 
@@ -43,6 +44,12 @@ def userAdded(sid, message):
     text = audio_byte_to_text(audio_bytes)
     pyautogui.typewrite(text)
     # sio.emit('rec_message', text)
+
+
+@sio.on('mouse')
+def change_speed(sid, data):
+    set_mouse_speed = int(int(data.get('re')) / 5)
+    ctypes.windll.user32.SystemParametersInfoA(113, 0, set_mouse_speed, 0)
 
 
 @sio.on('text')
