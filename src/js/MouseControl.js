@@ -31,12 +31,10 @@ const SliderPop = () => {
     const [value, setValue] = React.useState(30);
 
     socket.on("connect_error", (err) => {
-        setState({ errorRecording: true });
         console.log("error conneting to");
     });
     socket.on("connect", () => {
         console.log(socket.id);
-        setState({ errorRecording: false });
     });
 
     const handleChange = (event, newValue) => {
@@ -47,7 +45,7 @@ const SliderPop = () => {
 
     return (
             <div className={classes.root} >
-                <Slider defaultValue={30} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+                <Slider defaultValue={50} value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
             </div>
     );
 }
