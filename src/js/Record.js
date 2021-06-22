@@ -10,7 +10,7 @@ import micOff from '../assets/img/mic_off.png';
 
 import '../css/ErrrorIndicator.css';
 
-const ENDPOINT = "http://0.0.0.0:5000";
+const ENDPOINT = "http://127.0.0.1:5000";
 
 class Record extends Component {
     constructor(props) {
