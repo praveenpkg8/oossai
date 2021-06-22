@@ -20,7 +20,7 @@ def userAdded(message):
 
 @socketio.on('mouse')
 def change_speed(data):
-    set_mouse_speed = int(data.get('speed') / 5)
+    set_mouse_speed = int(int(data.get('speed')) / 5)
     ctypes.windll.user32.SystemParametersInfoA(113, 0, set_mouse_speed, 0)
 
 @app.route("/test")
