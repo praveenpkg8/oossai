@@ -38,7 +38,7 @@ const Setting = () => {
 
   return (
     <>
-      <img className='setting-icon' src={settingImg} alt=""  onClick={openWindow} />
+      <img className='setting-icon' src={settingImg} alt="" />
     </>
     // <div>
     //   <button type="button" onClick={handleOpen}>
