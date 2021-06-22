@@ -20,8 +20,8 @@ def userAdded(message):
 
 @socketio.on('mouse')
 def change_speed(data):
-    set_mouse_speed = data.get('speed')
-    ctypes.windll.user32.SystemParametersInfoA(set_mouse_speed,0,10, 0)
+    set_mouse_speed = (data.get('speed') / 5)
+    ctypes.windll.user32.SystemParametersInfoA(113, 0, set_mouse_speed, 0)
 
 @app.route("/test")
 def hello_word():
