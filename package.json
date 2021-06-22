@@ -1,7 +1,7 @@
 {
   "name": "electron-react-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "Dextoware Sample Build",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,7 +12,7 @@
     "make": "electron-forge make"
   },
   "keywords": [],
-  "author": "",
+  "author": "Earney",
   "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
