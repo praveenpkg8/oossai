@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import '../css/MouseControl.css';
 import cursorPointer from '../assets/img/cursor.png';
 
-const ENDPOINT = "http://0.0.0.0:5000";
+const ENDPOINT = "http://127.0.0.1:5000";
 
 
 const useStyles = makeStyles({
@@ -23,14 +23,13 @@ const useStyles = makeStyles({
     },
 });
 
-
+const socket = io(ENDPOINT);
 
 
 const SliderPop = () => {
     const classes = useStyles();
     const [value, setValue] = React.useState(30);
 
-    const socket = io(ENDPOINT);
     socket.on("connect_error", (err) => {
         setState({ errorRecording: true });
         console.log("error conneting to");
@@ -42,7 +41,7 @@ const SliderPop = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        this.socket.emit('mouse', { speed: newValue })
+        socket.emit('mouse', { re: newValue })
     };
 
 
