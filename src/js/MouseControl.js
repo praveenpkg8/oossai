@@ -39,7 +39,7 @@ const SliderPop = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        socket.emit('mouse', { re: newValue })
+        socket.emit('mouse', { speed: newValue })
     };
 
 
