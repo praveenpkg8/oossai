@@ -12,6 +12,10 @@ import settingImg from '../assets/img/setting.png'
 const openWindow = () => {
   console.log("ipc clicked")
   ipcRenderer.send('asynchronous-message', 'Test message');
+  ipcRenderer.on('rec_reply', (event, arg) => {
+    console.log(arg)
+ })
+
 }
 
 const Setting = () => {
@@ -38,7 +42,7 @@ const Setting = () => {
 
   return (
     <>
-      <img className='setting-icon' src={settingImg} alt="" />
+      <img className='setting-icon' onClick={openWindow} src={settingImg} alt="" />
     </>
     // <div>
     //   <button type="button" onClick={handleOpen}>
