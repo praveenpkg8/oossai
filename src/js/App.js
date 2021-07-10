@@ -13,8 +13,8 @@ export default function App() {
   return (
     <>
     <div className="container">
-      <MouseControl />
-      {/* <ErrrorIndicator /> */}
+      {/* <MouseControl /> */}
+      <ErrrorIndicator />
       <Record />
       <Setting />
       <Help />
