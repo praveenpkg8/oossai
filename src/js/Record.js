@@ -1,5 +1,29 @@
 import React, { Component } from 'react';
 import { io } from "socket.io-client";
+var socket = new WebSocket("ws://localhost:8080/ws");
+
+let connect = () => {
+  console.log("Attempting Connection...");
+
+  socket.onopen = () => {
+    console.log("Successfully Connected");
+  };
+
+  socket.onmessage = msg => {
+    console.log(msg);
+  };
+
+  socket.onclose = event => {
+    console.log("Socket Closed Connection: ", event);
+  };
+
+  socket.onerror = error => {
+    console.log("Socket Error: ", error);
+  };
+};
+
+connect()
+
 
 import AudioVisualizer from './AudioVisualizer';
 
@@ -10,7 +34,7 @@ import micOff from '../assets/img/mic_off.png';
 
 import '../css/ErrrorIndicator.css';
 
-const ENDPOINT = "http://127.0.0.1:5000";
+const ENDPOINT = "ws://localhost:8000";
 
 class Record extends Component {
     constructor(props) {
@@ -22,16 +46,20 @@ class Record extends Component {
             audioVisuals: 0
         }
 
-        this.socket = io(ENDPOINT);
-        this.socket.on("connect_error", (err) => {
-            this.setState({ errorRecording: true });
-            console.log("error conneting to");
-        });
-        this.socket.on("connect", () => {
-            console.log(this.socket.id);
-            this.setState({ errorRecording: false });
+        // this.socket = io(ENDPOINT);
+        // this.socket.emit('echo', { text: 'Hello world.' }, function(response) {
+        //     console.log(response);
+        //   });
+        
+        // this.socket.on("connect_error", (err) => {
+        //     this.setState({ errorRecording: true });
+        //     console.log("error conneting to", err);
+        // });
+        // this.socket.on("connect", () => {
+        //     console.log(this.socket.id);
+        //     this.setState({ errorRecording: false });
 
-        });
+        // });
         console.log("second")
 
 
