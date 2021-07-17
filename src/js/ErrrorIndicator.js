@@ -9,7 +9,7 @@ class ErrorIndicator extends Component {
     connect();
   }
 
-  send() {
+  send(data) {
     const _message = JSON.stringify({hello: "world"})
     let encoder = new TextEncoder()
     let view = encoder.encode(_message)
