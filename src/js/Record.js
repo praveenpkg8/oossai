@@ -1,28 +1,5 @@
 import React, { Component } from 'react';
 import { io } from "socket.io-client";
-var socket = new WebSocket("ws://localhost:8080/ws");
-
-let connect = () => {
-  console.log("Attempting Connection...");
-
-  socket.onopen = () => {
-    console.log("Successfully Connected");
-  };
-
-  socket.onmessage = msg => {
-    console.log(msg);
-  };
-
-  socket.onclose = event => {
-    console.log("Socket Closed Connection: ", event);
-  };
-
-  socket.onerror = error => {
-    console.log("Socket Error: ", error);
-  };
-};
-
-connect()
 
 
 import AudioVisualizer from './AudioVisualizer';
@@ -31,6 +8,7 @@ import '../css/Record.css';
 import micOn from '../assets/img/mic_on.png';
 import micOff from '../assets/img/mic_off.png';
 
+import { connect, sendMsg, getConnectionStatus } from "./websocket_api";
 
 import '../css/ErrrorIndicator.css';
 
@@ -42,15 +20,16 @@ class Record extends Component {
         this.state = {
             recording: false,
             echoRecording: false,
-            errorRecording: false,
+            errorRecording: true,
             audioVisuals: 0
-        }
+        };
+        connect();
 
         // this.socket = io(ENDPOINT);
         // this.socket.emit('echo', { text: 'Hello world.' }, function(response) {
         //     console.log(response);
         //   });
-        
+
         // this.socket.on("connect_error", (err) => {
         //     this.setState({ errorRecording: true });
         //     console.log("error conneting to", err);
@@ -60,12 +39,13 @@ class Record extends Component {
         //     this.setState({ errorRecording: false });
 
         // });
-        console.log("second")
-
-
     }
 
-    componentDidMount() { }
+    componentDidMount() {
+        setInterval(() => {
+            this.setState(() => ({ errorRecording: getConnectionStatus() }))
+        }, 2000)
+    }
 
 
     recordAudio = async (recording) => {
@@ -83,6 +63,13 @@ class Record extends Component {
 
 
     }
+
+    // connetionCheck = setInterval(() => {
+    //     console.log(getConnectionStatus())
+    // }, 2000)
+    // connetionCheck();
+
+
 
     getBufferCallback(buffers) {
         let audioData = buffers[0].length % 7
@@ -126,7 +113,8 @@ class Record extends Component {
             this.rec.exportWAV(blob => {
                 this.rec.clear();
                 console.log(blob);
-                this.socket.emit('message', { audio: blob, type: 'audio/wav' })
+                sendMsg(blob)
+
             })
         }, 5000)
 
