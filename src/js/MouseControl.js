@@ -23,7 +23,7 @@ const useStyles = makeStyles({
     },
 });
 
-const socket = io(ENDPOINT);
+// const socket = io(ENDPOINT);
 
 
 const SliderPop = () => {
