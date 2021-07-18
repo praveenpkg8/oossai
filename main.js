@@ -1,12 +1,11 @@
 const { BrowserWindow, app, ipcMain, Notification } = require('electron');
+
+
 const _path = app.getAppPath()
 
-const python = require('child_process').spawn('python', [_path+'/hello.py']);
-// const {exec} = require('child_process');
-// exec("sh ./hello.py", () => {})
+const {exec} = require('child_process');
    
 const path = require('path');
-const { fs } = require('fs')
 
 async function exists (path) {  
   try {
@@ -19,10 +18,18 @@ async function exists (path) {
 }
 
 console.log('Your App Path:' + _path)
+const child = exec(_path+'/oossai',
+  function (error, stdout, stderr) {
+      console.log('stdout: ' + stdout);
+      console.log('stderr: ' + stderr);
+      if (error !== null) {
+           console.log('exec error: ' + error);
+      }
+  });
 
 
 const isDev = !app.isPackaged;
-const height = 70
+const height = 80
 const width = 500
 
 
@@ -35,6 +42,7 @@ function createWindow() {
     minHeight: height,
     maxHeight: height,
     transparent: true, 
+    icon: path.join(__dirname, 'logo.png'),
     frame: false,
     backgroundColor: "#424141",
     webPreferences: {
@@ -44,10 +52,6 @@ function createWindow() {
       // preload: path.join(__dirname, 'preload.js')
     }
   })
-  var python = require('child_process').spawn('sh', [path.join(__dirname, 'python.sh')]);
-  //   python.stdout.on('data',function(data){
-  //       console.log("data: ",data.toString('utf8'));
-  //   });
 
 
   win.loadFile(path.join(__dirname, 'index.html'));
@@ -55,9 +59,7 @@ function createWindow() {
 
 
 ipcMain.on('asynchronous-message', (event, arg) => {
-  console.log(arg)
-
-  if (fs.existsSync(_path+'/hello.py')) {
+  if (exists(_path+'/oosasai')) {
     console.log('exists')
   } else {
     console.log('does not')
