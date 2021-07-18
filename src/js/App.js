@@ -12,13 +12,16 @@ export default function App() {
 
   return (
     <>
-    <div className="container">
-      {/* <MouseControl /> */}
-      <ErrrorIndicator />
-      <Record />
-      <Setting />
-      <Help />
-    </div>
+      <header className="toolbar toolbar-header drag-area">
+        <button disabled className="movable"></button>
+      </header>
+      <div className="container">
+        {/* <MouseControl /> */}
+        {/* <ErrrorIndicator /> */}
+        <Record />
+        <Setting />
+        <Help />
+      </div>
     </>
   )
 }
