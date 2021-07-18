@@ -9,3 +9,23 @@
 
     /* margin-top: 40px; */
 }
+
+.drag-area {
+    -webkit-app-region: drag;
+    height: 100%;
+    display: inline;
+    float: left;
+
+
+  }
+  
+  .nodrag-area {
+    -webkit-app-region: no-drag;
+  }
+  
+
+.movable {
+    display: inline;
+    height: 60px;
+    background-color: #424141;
+}
