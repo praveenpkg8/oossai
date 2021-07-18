@@ -13,6 +13,7 @@ import { connect, sendMsg, getConnectionStatus } from "./websocket_api";
 import '../css/ErrrorIndicator.css';
 
 const ENDPOINT = "ws://localhost:8000";
+connect();
 
 class Record extends Component {
     constructor(props) {
@@ -23,7 +24,6 @@ class Record extends Component {
             errorRecording: true,
             audioVisuals: 0
         };
-        connect();
 
         // this.socket = io(ENDPOINT);
         // this.socket.emit('echo', { text: 'Hello world.' }, function(response) {
